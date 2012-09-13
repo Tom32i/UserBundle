@@ -1,0 +1,11 @@
+{% form_theme form 'Tom32iUserBundle:Form:fields.html.twig' %}
+
+<form action="{{ path('register') }}" {{ form_enctype(form) }} method="POST" class="form-grid">
+    {{ form_widget(form) }}
+    
+    <button class="btn btn-primary btn-large btn-block" type="submit" >
+        Register
+    </button>
+    
+    <a class="btn btn-info  btn-large btn-block" href="{{ path('twitter_register') }}">Register with Twitter</a>
+</form>

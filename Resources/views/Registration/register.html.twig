@@ -1,0 +1,15 @@
+{% extends "Tom32iSiteBundle::layout.html.twig" %}
+
+{% block container_header %}{% endblock %}
+
+{% block content %}
+    <div id="action" class=" span4 offset4">
+	    <h1 class="page-header">Register</h1>
+
+	    <div id="register_box" class="well box">
+	    	<div class="row-fluid">
+				{% include "Tom32iUserBundle:Registration:register_content.html.twig" %}
+		    </div>
+	    </div>
+    </div>
+{% endblock %}

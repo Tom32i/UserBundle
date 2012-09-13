@@ -1,0 +1,53 @@
+<form action="{{ path("login_check") }}" method="post" class="form-grid">
+
+    {% if error is defined and error %}
+        <div class="field-error alert alert-error">
+            <ul>
+                <li>
+                    Wrong username or password.
+                </li>
+                <li>
+                    Did you 
+                    <a class=""  href="{{ path("request_password") }}">
+                        forget your password?
+                    </a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+
+    {#}<input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />{#}
+    {% set redirect = 'redirect'|getParam() %}
+    {% if redirect %}
+    <input type="hidden" name="_target_path" value="{{ redirect }}" />
+    {% endif %}
+
+    <div class="control-group">
+        <div class="controls">
+            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class="span12" placeholder="Username" 
+        />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            <input type="password" id="password" name="_password" class="span12" required="required" placeholder="Password" 
+        />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            <label for="remember_me" class="checkbox">
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                Remember me
+            </label>
+        </div>
+    </div>
+
+    <button class="btn btn-primary btn-large btn-block" type="submit" >
+        Login
+    </button>
+    
+    <a class="btn btn-info  btn-large btn-block" href="{{ path('twitter_login') }}">Login with Twitter</a>
+</form>

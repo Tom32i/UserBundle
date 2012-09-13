@@ -1,0 +1,19 @@
+{% extends "Tom32iUserBundle::layout.html.twig" %}
+
+{% block header %}
+    <h1>
+        Register
+        <small>{{ 'registration.confirmation'|trans({}, 'Tom32iSiteBundle') }}</small>
+    </h1>
+{% endblock %}
+
+{% block user_content %}
+    <div class="well hero-unit">
+	    <h2>Let's get the arty started.</h2>
+	    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}, 'Tom32iUserBundle') }}</p>
+	    {% if app.session is not empty %}
+	        {% set targetUrl = app.session.get('_security.target_path') %}
+	        {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back' }}</a></p>{% endif %}
+	    {% endif %}
+    </div>
+{% endblock user_content %}

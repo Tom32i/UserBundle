@@ -1,0 +1,18 @@
+Tom32i\UserBundle\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: {fields: usernameCanonical, errorPath: username, message: "This username is already taken", groups: [registration, profile, twitter]}
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: {fields: emailCanonical, errorPath: email, message: "This email is already registered", groups: [registration, profile]}
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: {fields: twitterUserId, message: "This Twitter account is already registered", groups: [twitter]}
+    properties:
+        username:
+            - NotBlank: { groups: [registration, profile, twitter] }
+            - MinLength: { limit: 3, groups: [registration, profile, twitter] }
+        usernameCanonical:
+            - NotBlank: { groups: [registration, profile, twitter] }
+        email:
+            - Email: { groups: [registration, profile] }
+        plainPassword:
+            - NotBlank: { groups: [registration] }
+            - MinLength: { limit: 7, groups: [registration] }
+        website:
+            - Url: { groups: [profile] }

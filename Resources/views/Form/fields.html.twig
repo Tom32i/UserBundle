@@ -1,0 +1,37 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block form_errors %}
+	{% if errors|length %}
+	{% spaceless %}
+		<div class="field-error alert alert-error">
+		    {{ parent() }}
+		</div>
+	{% endspaceless %}
+	{% endif %}
+{% endblock %}
+
+{% block form_row %}
+	<div class="control-group">
+		<div class="controls">
+	    {{ form_errors(form) }}
+	    {{ form_widget(form, { attr: {class: 'span12', placeholder: form.get('label')|placeholder }} ) }}
+	    </div>
+    </div>
+{% endblock %}
+
+{% block repeated_row %}
+	{% for child in form %}
+	    {{ form_errors(child) }}
+    {% endfor %}
+	<div class="repeated control-group">
+		<div class="controls">
+		{% spaceless %}
+		    {% for child in form %}
+		    	<div class="span6">
+			    {{ form_widget(child, { attr: {class: 'span12', placeholder: child.get('label')|placeholder }} ) }}
+			    </div>
+		    {% endfor %}
+		{% endspaceless %}
+	    </div>
+    </div>
+{% endblock %}

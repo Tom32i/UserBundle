@@ -1,0 +1,24 @@
+{% extends "Tom32iUserBundle:Email:layout.html.twig" %}
+
+{% block title %}Keeptools | Please confirm your email address{% endblock %}
+
+{% set url_confirm = url('confirmation_email', {token: confirmation.token}) %}
+
+{% block content %}
+<!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
+		<table cellpadding="0" cellspacing="0" border="0" align="center">
+			<tr>
+				<td width="50" valign="top"></td>
+				<td width="500" valign="top">
+					<h1>Hi {{ user.name() }},</h1>
+					<p>Please confirm your email address by clicking the link below:</p>
+					<a href="{{ url_confirm }}" target ="_blank" title="Styling Links" style="color: orange; text-decoration: none;">{{ url_confirm }}</a>
+				</td>
+				<td width="50" valign="top"></td>
+			</tr>
+		</table>
+
+		<!-- Gmail/Hotmail image display fix
+		<img class="image_fix" src="full path to image" alt="Your alt text" title="Your title text" width="x" height="x" />
+		 -->
+{% endblock %}
