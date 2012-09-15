@@ -24,6 +24,11 @@ class Tom32iUserExtension extends Extension
 
         foreach ($config as $key => $value) 
         {
+            $container->setParameter($key, $value);
+        }
+
+        foreach ($config as $key => $value) 
+        {
             switch ($key) 
             {
                 case 'twitter':
