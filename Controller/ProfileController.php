@@ -131,7 +131,7 @@ class ProfileController extends Controller
             if ($form->isValid()) 
             {
                 $em = $this->getDoctrine()->getEntityManager();
-                $user = $em->getRepository('Tom32iUserBundle:User')->findOneBy(array('email' => $data->email));
+                $user = $em->getRepository($this->container->getParameter('user_class'))->findOneBy(array('email' => $data->email));
 
                 if (!$user) 
                 {

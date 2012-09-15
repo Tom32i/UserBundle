@@ -188,7 +188,7 @@ class TwitterController extends Controller
         }
 
         $em = $this->getDoctrine()->getEntityManager();
-        $um = $em->getRepository('Tom32iUserBundle:User');
+        $um = $em->getRepository($this->container->getParameter('user_class'));
 
         $username = $user_data->screen_name;
         $num = 1;
@@ -300,7 +300,7 @@ class TwitterController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $user = $em->getRepository('Tom32iUserBundle:User')->findOneBy( array( 'twitterUserId' => $uid) );
+        $user = $em->getRepository($this->container->getParameter('user_class'))->findOneBy( array( 'twitterUserId' => $uid) );
 
         return ($user && is_a($user, $this->container->getParameter('user_class')) && $user->isValid()) ? $user : false;
     }

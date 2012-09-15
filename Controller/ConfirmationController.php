@@ -22,7 +22,7 @@ class ConfirmationController extends Controller
     {
     	$em = $this->getDoctrine()->getEntityManager();
 
-        $user = $em->getRepository('Tom32iUserBundle:User')->findOneBy(array('confirmationToken' => $token));
+        $user = $em->getRepository($this->container->getParameter('user_class'))->findOneBy(array('confirmationToken' => $token));
 
         if ($user) 
         {
@@ -63,7 +63,7 @@ class ConfirmationController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $user = $em->getRepository('Tom32iUserBundle:User')->findOneBy(array('confirmationToken' => $token));
+        $user = $em->getRepository($this->container->getParameter('user_class'))->findOneBy(array('confirmationToken' => $token));
 
         if ($user
             && is_a($user, $this->container->getParameter('user_class')) 
