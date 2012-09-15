@@ -1,7 +1,7 @@
 services:
-	tom32i_user.validator.initializer:
-		class: Tom32i\UserBundle\Validator\Initializer
-		public: false
+    tom32i_user.validator.initializer:
+        class: Tom32i\UserBundle\Validator\Initializer
+        public: false
         tags:
             - { name: validator.initializer }
 
