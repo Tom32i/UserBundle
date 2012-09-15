@@ -20,9 +20,34 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('tom32i_user');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode->
+            children()
+                ->arrayNode('twitter')
+                    ->scalarNode('consumer_key')
+                        ->isRequired()
+                        ->cannotBeEmpty()
+                    ->end()
+                    ->scalarNode('consumer_secret')
+                        ->isRequired()
+                        ->cannotBeEmpty()
+                    ->end()
+                    ->scalarNode('access_token')
+                        ->isRequired()
+                        ->cannotBeEmpty()
+                    ->end()
+                    ->scalarNode('access_token_secret')
+                        ->isRequired()
+                        ->cannotBeEmpty()
+                    ->end()
+                ->end()
+                ->arrayNode('mail')
+                    ->scalarNode('subject_prefix')
+                        ->isRequired()
+                        ->cannotBeEmpty()
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }

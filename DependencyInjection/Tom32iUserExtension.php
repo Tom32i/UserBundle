@@ -22,7 +22,17 @@ class Tom32iUserExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        foreach ($config as $key => $value) 
+        {
+            $container->setParameter($key, $value);
+        }
+
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+    }
+ 
+    public function getAlias()
+    {
+        return 'tom32i_user';
     }
 }
