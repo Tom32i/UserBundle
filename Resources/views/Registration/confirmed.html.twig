@@ -3,11 +3,11 @@
 {% block header %}
     <h1>
         Register
-        <small>{{ 'registration.confirmation'|trans({}, 'Tom32iSiteBundle') }}</small>
+        <small>{{ 'registration.confirmation'|trans({}, 'Tom32iUserBundle') }}</small>
     </h1>
 {% endblock %}
 
-{% block user_content %}
+{% block content %}
     <div class="well hero-unit">
 	    <h2>Let's get the arty started.</h2>
 	    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}, 'Tom32iUserBundle') }}</p>
@@ -16,4 +16,4 @@
 	        {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back' }}</a></p>{% endif %}
 	    {% endif %}
     </div>
-{% endblock user_content %}
+{% endblock content %}

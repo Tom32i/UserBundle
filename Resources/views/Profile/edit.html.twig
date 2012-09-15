@@ -1,10 +1,8 @@
-{% extends "Tom32iSiteBundle::layout.html.twig" %}
+{% extends "Tom32iUserBundle::layout.html.twig" %}
 
 {% block header %}
     <h1>My profile</h1>
 {% endblock %}
-
-{% block fos_content_class %}{% endblock %}
 
 {% block content %}
 {% form_theme form 'Tom32iUserBundle:Form:profile.html.twig' %}

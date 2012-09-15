@@ -3,13 +3,13 @@
 {% block header %}
     <h1>
         {{ 'layout.register' }}
-        <small>{{ 'registration.check_email'|trans({}, 'Tom32iSiteBundle') }}</small>
+        <small>{{ 'registration.check_email'|trans({}, 'Tom32iUserBundle') }}</small>
     </h1>
 {% endblock %}
 
-{% block user_content %}
+{% block content %}
     <div class="well hero-unit">
 	    <h2>Thank you {{ user.username }}!</h2>
 	    <p>{{ 'registration.check_email'|trans({'%email%': user.email}, 'Tom32iUserBundle') }}</p>
     </div>
-{% endblock user_content %}
+{% endblock content %}
