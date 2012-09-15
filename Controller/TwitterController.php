@@ -199,7 +199,8 @@ class TwitterController extends Controller
             $num ++;
         }
 
-		$user = new $this->container->getParameter('user_class');
+        $classname = $this->container->getParameter('user_class');
+		$user = new $classname;
 
         $user->setUsername($username);
         $user->setEnabled(true);
