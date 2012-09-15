@@ -24,7 +24,21 @@ class Tom32iUserExtension extends Extension
 
         foreach ($config as $key => $value) 
         {
-            $container->setParameter($key, $value);
+            switch ($key) 
+            {
+                case 'twitter':
+                
+                    foreach ($value as $param => $str) 
+                    {
+                        $container->setParameter($key.'_'.$param, $str);
+                    }
+
+                    break;
+                
+                default:
+                    $container->setParameter($key, $value);
+                    break;
+            }
         }
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
