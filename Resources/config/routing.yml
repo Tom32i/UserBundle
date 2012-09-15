@@ -1,24 +1,24 @@
 Tom32iUserBundle_Twitter:
-    resource: "@Tom32iTwitterBundle/Controller/TwitterController.php"
+    resource: "@Tom32iUserBundle/Controller/TwitterController.php"
     type:     annotation
     prefix:   /twitter
 
 Tom32iUserBundle_Confirmation:
-    resource: "@Tom32iTwitterBundle/Controller/ConfirmationController.php"
+    resource: "@Tom32iUserBundle/Controller/ConfirmationController.php"
     type:     annotation
     prefix:   /
 
 Tom32iUserBundle_Registration:
-    resource: "@Tom32iTwitterBundle/Controller/RegistrationController.php"
+    resource: "@Tom32iUserBundle/Controller/RegistrationController.php"
     type:     annotation
     prefix:   /
 
 Tom32iUserBundle_Profile:
-    resource: "@Tom32iTwitterBundle/Controller/ProfileController.php"
+    resource: "@Tom32iUserBundle/Controller/ProfileController.php"
     type:     annotation
     prefix:   /
 
 Tom32iUserBundle_Security:
-    resource: "@Tom32iTwitterBundle/Controller/SecurityController.php"
+    resource: "@Tom32iUserBundle/Controller/SecurityController.php"
     type:     annotation
     prefix:   /
