@@ -133,21 +133,21 @@ abstract class User implements AdvancedUserInterface, EquatableInterface, \Seria
      *
      * @var string $confirmationToken
      *
-     * @ORM\Column(name="confirmation_token", type="array", length=255, nullable=true)
+     * @ORM\Column(name="confirmation_token", type="array", length=255)
      */
     protected $confirmationToken;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="password_requested_at", type="datetime")
+     * @ORM\Column(name="password_requested_at", type="datetime", nullable=true)
      */
     protected $passwordRequestedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="email_requested_at", type="datetime")
+     * @ORM\Column(name="email_requested_at", type="datetime", nullable=true)
      */
     protected $emailRequestedAt;
 
