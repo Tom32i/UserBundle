@@ -14,5 +14,3 @@ Tom32i\UserBundle\Entity\User:
         plainPassword:
             - NotBlank: { groups: [registration] }
             - MinLength: { limit: 7, groups: [registration] }
-        website:
-            - Url: { groups: [profile] }
