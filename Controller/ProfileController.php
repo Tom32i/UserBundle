@@ -5,7 +5,6 @@ namespace Tom32i\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Tom32i\SiteBundle\Controller\SuperController;
 use Tom32i\UserBundle\Entity\User;
 use Tom32i\UserBundle\Entity\Confirmation;
 use Tom32i\UserBundle\Form\Model\PasswordRequest;
@@ -14,7 +13,7 @@ use Tom32i\UserBundle\Form\DeleteType;
 use Tom32i\UserBundle\Form\PasswordRequestType;
 use Symfony\Component\Form\FormError;
 
-class ProfileController extends SuperController
+class ProfileController extends Controller
 {
     /**
      * @Route("/profile", name="profile_edit")
@@ -22,7 +21,7 @@ class ProfileController extends SuperController
      */
     public function editAction()
     {
-        $user = $this->getcurrentUser();
+        $user = $this->getUser();
         $currentMail = $user->getEmail();
 
         $form = $this->createForm(new ProfileType(), $user);
@@ -84,7 +83,7 @@ class ProfileController extends SuperController
      */
     public function deleteAction()
     {
-        $user = $this->getcurrentUser();
+        $user = $this->getUser();
         $form = $this->createForm(new DeleteType(), $user);
         $request = $this->getRequest();
 
@@ -189,7 +188,7 @@ class ProfileController extends SuperController
      */
     public function resendConfirmEmailAction()
     {
-        $user = $this->getcurrentUser();
+        $user = $this->getUser();
 
         $valid = $user->isEmailValid();
 
@@ -227,7 +226,7 @@ class ProfileController extends SuperController
         $em->persist($confirmation);
         $em->flush();
 
-        $mailer = $this->get('tom32i_mailer');
+        $mailer = $this->get('tom32i_user_mailer');
         $mailer->sendToUser($user, 'Confirm your email adress', 'confirmation_email', array(
             'confirmation' =>  $confirmation,
             'user' => $user,

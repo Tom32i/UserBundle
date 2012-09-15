@@ -9,11 +9,10 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Tom32i\UserBundle\Entity\User;
 use Tom32i\UserBundle\Entity\Confirmation;
-use Tom32i\SiteBundle\Controller\SuperController;
 use Tom32i\UserBundle\Form\PasswordResetType;
 use Symfony\Component\Form\FormError;
 
-class ConfirmationController extends SuperController
+class ConfirmationController extends Controller
 {
     /**
      * @Route("/comfirm-email/{token}", name="confirmation_email")
@@ -27,7 +26,7 @@ class ConfirmationController extends SuperController
 
         if ($confirmation) 
         {
-            $current_user = $this->getcurrentUser();
+            $current_user = $this->getUser();
             $user = $confirmation->getUser();
 
             if(	$confirmation->isValid(Confirmation::ACTION_EMAIL) 
