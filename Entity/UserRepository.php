@@ -16,43 +16,7 @@ use Doctrine\ORM\NoResultException;
  * repository methods below.
  */
 class UserRepository extends EntityRepository implements UserProviderInterface
-
 {
-    public function search($search)
-    {   
-        $sql = "SELECT u FROM Tom32i\UserBundle\Entity\User u 
-                WHERE u.usernameCanonical LIKE :search 
-                OR u.emailCanonical LIKE :search 
-                OR u.fullname LIKE :search 
-                AND u.enabled = 1 
-                ORDER BY u.usernameCanonical ASC";
-
-        $query = $this->_em->createQuery($sql)
-                ->setParameter('search', "%".$search."%");
-        
-        //var_dump($query->getSQL());
-        //exit();
-        
-        return $query->getResult();
-    }
-
-    public function getByComment($resource_id, $curent_user)
-    {
-        $sql = "SELECT u FROM Tom32i\UserBundle\Entity\User u  
-                WHERE u.id IN (
-                    SELECT cu.id FROM Tom32i\SiteBundle\Entity\Comment c 
-                    INNER JOIN c.user cu 
-                    WHERE c.resource = :resource
-                    AND c.user != :current
-                    GROUP BY cu.id
-                )";
-
-        $query = $this->_em->createQuery($sql);
-        $query->setParameter('resource', $resource_id);
-        $query->setParameter('current', $curent_user);
-        
-        return $query->getResult();
-    }
 
 	public function loadUserByUsername($usernameOrEmail)
     {

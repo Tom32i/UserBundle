@@ -5,7 +5,6 @@ namespace Tom32i\UserBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Tom32i\UserBundle\Form\ImageType;
 
 class ProfileType extends AbstractType
 {
@@ -15,23 +14,6 @@ class ProfileType extends AbstractType
         $builder
             ->add('username')
             ->add('email')
-            ->add('image', new ImageType(), array('label' => 'Avatar'))
-            ->add('fullname')
-            ->add('displayFullname', null, array(
-                "label" => "Display my fullname instead of my username.", 
-                'required' => false
-                )
-            )
-            ->add('occupation')
-            ->add('website')
-            //->add('twitter')
-            //->add('facebook')
-            ->add('location')
-            ->add('about')
-            ->add('currentPassword', 'password', array(
-                'label' => "Current password",
-                'required' => false,
-            ))
             ->add('plainPassword', 'repeated', array(
                 'first_name' => 'password',
                 'second_name' => 'confirm',

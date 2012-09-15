@@ -35,20 +35,7 @@ class ProfileController extends Controller
             {
                 $em = $this->getDoctrine()->getEntityManager();
 
-                $image = $user->getImage();
-        
-                if ($image->file === null)
-                {
-                    $image_id = $image->getId();
-                    if ($image_id === null)
-                    {
-                        $entity->removeImage();
-                    }
-                }
-                else
-                {
-                    $image->upload('users/'.$user->getId(), null, 'avatar');
-                } 
+                $user->onProfileEdit();
 
                 $passwordChanged = $user->updatePassword($this->get('security.encoder_factory'));
 

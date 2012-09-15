@@ -12,11 +12,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 /**
  * Tom32i\UserBundle\Entity\User
  *
- * @ORM\Table(name="account")
- * @ORM\Entity(repositoryClass="Tom32i\UserBundle\Entity\UserRepository")
- * @ORM\HasLifecycleCallbacks()
  */
-class User implements AdvancedUserInterface, EquatableInterface, \Serializable
+abstract class  User implements AdvancedUserInterface, EquatableInterface, \Serializable
 {
     /**
      * @var integer $id
@@ -112,62 +109,6 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     private $roles;
 
     /**
-     * @var string $fullname
-     *
-     * @ORM\Column(name="fullname", type="string", length=255, nullable=true)
-     */
-    private $fullname;
-
-    /**
-     * @var string $occupation
-     *
-     * @ORM\Column(name="occupation", type="string", length=255, nullable=true)
-     */
-    private $occupation;
-
-    /**
-     * @var string $website
-     *
-     * @ORM\Column(name="website", type="string", length=255, nullable=true)
-     */
-    private $website;
-
-    /**
-     * @var boolean $displayFullname
-     *
-     * @ORM\Column(name="display_fullname", type="boolean")
-     */
-    private $displayFullname = false;
-
-    /**
-     * @var string $about
-     *
-     * @ORM\Column(name="about", type="text", nullable=true)
-     */
-    private $about;
-
-    /**
-     * @var string $location
-     *
-     * @ORM\Column(name="location", type="string", length=255, nullable=true)
-     */
-    private $location;
-
-    /**
-     * @var boolean $tutorial
-     *
-     * @ORM\Column(name="tutorial", type="boolean")
-     */
-    private $tutorial = true;
-
-    /**
-     * @var \DateTime $lastActivity
-     *
-     * @ORM\Column(name="last_activity", type="datetime")
-     */
-    private $lastActivity;
-
-    /**
      * @var \DateTime $register
      *
      * @ORM\Column(name="register", type="datetime")
@@ -195,39 +136,8 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
      */
     private $twitterToken;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="leaders")
-     * @ORM\JoinTable(name="users_users",
-     *      joinColumns={@ORM\JoinColumn(name="leader_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="follower_id", referencedColumnName="id")}
-     * )
-     **/
-    private $followers;
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="followers")
-     **/
-    private $leaders;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="\Tom32i\SiteBundle\Entity\Board", mappedBy="author", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"position" = "ASC"})
-     */
-    private $boards;
-    
-    /**
-     * @ORM\OneToOne(targetEntity="\Tom32i\SiteBundle\Entity\Picture", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
-     **/
-    private $image;
-
     public $currentPassword;
     public $plainPassword;
-
-    public $favBoard;
-    public $tools;
-    public $resources;
-    public $createdNotifications;
-    public $notifications;
     public $validations;
 
     /* META */
@@ -236,53 +146,12 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     {
         $this->salt = md5(uniqid(null, true));
         $this->roles = array('ROLE_USER');
-        $this->lastActivity = new \DateTime();
         $this->register = new \DateTime();
-
-        $this->followers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->leaders = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->resources = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->boards = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->notifications = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->tools = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
     {
         return (string) $this->getUsername();
-    }
-
-    /* EVENTS */
-
-    /**
-    *   @ORM\PostLoad
-    **/
-    public function filterBoards()
-    {
-        foreach($this->boards as $board)
-        {
-            if($board->isSpecial())
-            {
-                $this->fav_board = $board;
-                $this->boards->removeElement($board);
-                return true;
-            }
-        }
-    }
-
-    /**
-    *   @ORM\PrePersist
-    **/
-    public function init()
-    {
-        $fav = new \Tom32i\SiteBundle\Entity\Board();
-        $fav->setTitle('Favorites');
-        $fav->setDescription('My favorites');
-        $fav->setSpecial(true);
-        $fav->setAuthor($this);
-
-        $this->fav_board = $fav;
-        $this->boards[] = $fav;
     }
 
     /* UTILS */
@@ -344,35 +213,12 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
 
     public function fillFromTwitter($data)
     {
-        $fields = array(
-            'fullname'  => $data->name,
-            'website'   => $data->url,
-            'about'     => $data->description,
-            'location'  => $data->location,
-        );
-
-        foreach ($fields as $key => $value) 
-        {
-            if(empty($this->{$key}) && !empty($value))
-            {
-                $this->{$key} = $value;
-            }
-        }
+        
     }
 
     public function setImageTwitter($data)
     {
-        if(empty($this->image) && !empty($data->profile_image_url))
-        {
-            $img = new \Tom32i\SiteBundle\Entity\Picture();
-            $img->setUser($this);
-            $success = $img->setFromUrl($data->profile_image_url, 'users/'.$this->id);
-
-            if($success)
-            {
-                $this->image = $img;
-            }
-        }
+        
     }
 
     /**
@@ -484,66 +330,6 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     public function isValid()
     {
         return $this->isEnabled() && $this->isAccountNonExpired() && $this->isAccountNonLocked();
-    }
-
-    public function name()
-    {
-        return $this->displayFullname && !empty($this->fullname) ? $this->fullname : $this->username;
-    }
-
-    /**
-     * Has resource ?
-     *
-     * @param Tom32i\SiteBundle\Entity\Resource $resource
-     */
-    public function hasBoardResource(\Tom32i\SiteBundle\Entity\Resource $resource)
-    {
-        foreach($this->boards->toArray() as $board)
-        {
-            foreach($board->getResources()->toArray() as $asBoardResource)
-            {
-                $test = $asBoardResource->getResource();
-                if($test == $resource)
-                {
-                    return true;
-                }  
-            }
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Has favorited ?
-     *
-     * @param Tom32i\SiteBundle\Entity\Resource $resource
-     */
-    public function hasFavorite(\Tom32i\SiteBundle\Entity\Resource $resource)
-    {   
-        $fav = $this->getFavBoard();
-
-        foreach($fav->getResources()->toArray() as $asBoardResource)
-        {
-            $test = $asBoardResource->getResource();
-            if($test == $resource)
-            {
-                return true;
-            }  
-        }
-
-        return false;
-    }
-
-    /**
-     * Is following ?
-     *
-     * @param Tom32i\UserBundle\Entity\User $user
-     */
-    public function isFollowing($user)
-    {
-        
-        $followers = $user->getFollowers();
-        return $followers->contains($this);
     }
 
     /* GETTER / SETTERS */
@@ -777,190 +563,6 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     }
 
     /**
-     * Set fullname
-     *
-     * @param string $fullname
-     * @return User
-     */
-    public function setFullname($fullname)
-    {
-        $this->fullname = $fullname;
-    
-        return $this;
-    }
-
-    /**
-     * Get fullname
-     *
-     * @return string 
-     */
-    public function getFullname()
-    {
-        return $this->fullname;
-    }
-
-    /**
-     * Set occupation
-     *
-     * @param string $occupation
-     * @return User
-     */
-    public function setOccupation($occupation)
-    {
-        $this->occupation = $occupation;
-    
-        return $this;
-    }
-
-    /**
-     * Get occupation
-     *
-     * @return string 
-     */
-    public function getOccupation()
-    {
-        return $this->occupation;
-    }
-
-    /**
-     * Set website
-     *
-     * @param string $website
-     * @return User
-     */
-    public function setWebsite($website)
-    {
-        $this->website = $website;
-    
-        return $this;
-    }
-
-    /**
-     * Get website
-     *
-     * @return string 
-     */
-    public function getWebsite()
-    {
-        return $this->website;
-    }
-
-    /**
-     * Set displayFullname
-     *
-     * @param boolean $displayFullname
-     * @return User
-     */
-    public function setDisplayFullname($displayFullname)
-    {
-        $this->displayFullname = $displayFullname;
-    
-        return $this;
-    }
-
-    /**
-     * Get displayFullname
-     *
-     * @return boolean 
-     */
-    public function getDisplayFullname()
-    {
-        return $this->displayFullname;
-    }
-
-    /**
-     * Set about
-     *
-     * @param string $about
-     * @return User
-     */
-    public function setAbout($about)
-    {
-        $this->about = $about;
-    
-        return $this;
-    }
-
-    /**
-     * Get about
-     *
-     * @return string 
-     */
-    public function getAbout()
-    {
-        return $this->about;
-    }
-
-    /**
-     * Set location
-     *
-     * @param string $location
-     * @return User
-     */
-    public function setLocation($location)
-    {
-        $this->location = $location;
-    
-        return $this;
-    }
-
-    /**
-     * Get location
-     *
-     * @return string 
-     */
-    public function getLocation()
-    {
-        return $this->location;
-    }
-
-    /**
-     * Set tutorial
-     *
-     * @param boolean $tutorial
-     * @return User
-     */
-    public function setTutorial($tutorial)
-    {
-        $this->tutorial = $tutorial;
-    
-        return $this;
-    }
-
-    /**
-     * Get tutorial
-     *
-     * @return boolean 
-     */
-    public function getTutorial()
-    {
-        return $this->tutorial;
-    }
-
-    /**
-     * Set lastActivity
-     *
-     * @param \DateTime $lastActivity
-     * @return User
-     */
-    public function setLastActivity($lastActivity)
-    {
-        $this->lastActivity = $lastActivity;
-    
-        return $this;
-    }
-
-    /**
-     * Get lastActivity
-     *
-     * @return \DateTime 
-     */
-    public function getLastActivity()
-    {
-        return $this->lastActivity;
-    }
-
-    /**
      * Set register
      *
      * @param \DateTime $register
@@ -1063,128 +665,6 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     }
 
     /**
-     * Add followers
-     *
-     * @param Tom32i\UserBundle\Entity\User $followers
-     * @return User
-     */
-    public function addFollower(\Tom32i\UserBundle\Entity\User $followers)
-    {
-        $this->followers[] = $followers;
-    
-        return $this;
-    }
-
-    /**
-     * Remove followers
-     *
-     * @param Tom32i\UserBundle\Entity\User $followers
-     */
-    public function removeFollower(\Tom32i\UserBundle\Entity\User $followers)
-    {
-        $this->followers->removeElement($followers);
-    }
-
-    /**
-     * Get followers
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getFollowers()
-    {
-        return $this->followers;
-    }
-
-    /**
-     * Add leaders
-     *
-     * @param Tom32i\UserBundle\Entity\User $leaders
-     * @return User
-     */
-    public function addLeader(\Tom32i\UserBundle\Entity\User $leaders)
-    {
-        $this->leaders[] = $leaders;
-    
-        return $this;
-    }
-
-    /**
-     * Remove leaders
-     *
-     * @param Tom32i\UserBundle\Entity\User $leaders
-     */
-    public function removeLeader(\Tom32i\UserBundle\Entity\User $leaders)
-    {
-        $this->leaders->removeElement($leaders);
-    }
-
-    /**
-     * Get leaders
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getLeaders()
-    {
-        return $this->leaders;
-    }
-
-    /**
-     * Add boards
-     *
-     * @param Tom32i\SiteBundle\Entity\Board $boards
-     * @return User
-     */
-    public function addBoard(\Tom32i\SiteBundle\Entity\Board $boards)
-    {
-        $this->boards[] = $boards;
-    
-        return $this;
-    }
-
-    /**
-     * Remove boards
-     *
-     * @param Tom32i\SiteBundle\Entity\Board $boards
-     */
-    public function removeBoard(\Tom32i\SiteBundle\Entity\Board $boards)
-    {
-        $this->boards->removeElement($boards);
-    }
-
-    /**
-     * Get boards
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getBoards()
-    {
-        return $this->boards;
-    }
-
-    /**
-     * Set image
-     *
-     * @param Tom32i\SiteBundle\Entity\Picture $image
-     * @return User
-     */
-    public function setImage(\Tom32i\SiteBundle\Entity\Picture $image = null)
-    {
-        $this->image = $image;
-    
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return Tom32i\SiteBundle\Entity\Picture 
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
      * Set expired
      *
      * @param boolean $expired
@@ -1254,76 +734,6 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     }
 
     /**
-     * Add resources
-     *
-     * @param Tom32i\SiteBundle\Entity\Resource $resources
-     */
-    public function addResource(\Tom32i\SiteBundle\Entity\Resource $resources)
-    {
-        $this->resources[] = $resources;
-    }
-
-    /**
-     * Get resources
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getResources()
-    {
-        return $this->resources;
-    }
-
-    /**
-     * Remove resources
-     *
-     * @param Tom32i\SiteBundle\Entity\Resource $resources
-     */
-    public function removeResource(\Tom32i\SiteBundle\Entity\Resource $resources)
-    {
-        $this->resources->removeElement($resources);
-    }
-
-    /**
-     * Get favorite board
-     *
-     * @return Tom32i\SiteBundle\Entity\Board $board
-     */
-    public function getFavBoard()
-    {
-        return $this->fav_board;
-    }
-
-    /**
-     * Add notification
-     *
-     * @param Tom32i\SiteBundle\Entity\Notification $notification
-     */
-    public function addNotification(\Tom32i\SiteBundle\Entity\Notification $notification)
-    {
-        $this->notifications[] = $notification;
-    }
-
-    /**
-     * Get notifications
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getNotifications()
-    {
-        return $this->notifications;
-    }
-
-    /**
-     * Remove notification
-     *
-     * @param Tom32i\SiteBundle\Entity\Notification $notification
-     */
-    public function removeNotification(\Tom32i\SiteBundle\Entity\Notification $notification)
-    {
-        $this->notifications->removeElement($notification);
-    }
-
-    /**
      * Sets the plain password.
      *
      * @param string $password
@@ -1358,5 +768,10 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     public function isEmailValid()
     {
         return $this->emailValid;
+    }
+
+     public function onProfileEdit()
+    {
+        
     }
 }
