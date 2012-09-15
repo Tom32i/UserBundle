@@ -29,7 +29,7 @@ class ConfirmationController extends Controller
             $current_user = $this->getUser();
 
             if(	$current_user 
-                && is_a($current_user, 'Tom32i\UserBundle\Entity\User') 
+                && is_a($current_user, $this->container->getParameter('user_class')) 
             	&& $current_user->isValid() 
             	&& $current_user->isEqualTo($user)
                 && $user->isConfrimationEmailValid()
@@ -66,7 +66,7 @@ class ConfirmationController extends Controller
         $user = $em->getRepository('Tom32iUserBundle:User')->findOneBy(array('confirmationToken' => $token));
 
         if ($user
-            && is_a($user, 'Tom32i\UserBundle\Entity\User') 
+            && is_a($user, $this->container->getParameter('user_class')) 
             && $user->isValid() 
             && $user->isConfirmationPasswordValid() 
         ) 

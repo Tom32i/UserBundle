@@ -7,7 +7,6 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Tom32i\UserBundle\Entity\User;
 use Tom32i\UserBundle\Form\UserType;
 
 class RegistrationController extends Controller
@@ -18,7 +17,7 @@ class RegistrationController extends Controller
      */
     public function registerAction()
     {
-	    $user = new User();
+	    $user = new $this->container->getParameter('user_class');
     	$form = $this->createForm(new UserType(), $user);
     	$request = $this->getRequest();
 
@@ -52,7 +51,7 @@ class RegistrationController extends Controller
      *
      * @param \Tom32i\UserBundle\Entity\User       $user
      */
-    private function authenticateUser(User $user)
+    private function authenticateUser($user)
     {
         // Create the authentication token
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
