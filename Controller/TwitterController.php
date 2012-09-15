@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Tom32i\UserBundle\Model\TwitterOAuth;
-use Tom32i\UserBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class TwitterController extends Controller
@@ -19,7 +18,7 @@ class TwitterController extends Controller
     {
         $current_user = $this->getUser();
 
-        if ($current_user && is_a($current_user, 'Tom32i\UserBundle\Entity\User') && $current_user->isValid())
+        if ($current_user && is_a($current_user, $this->container->getParameter('user_class')) && $current_user->isValid())
         {
             return $this->redirect($this->generateUrl('profile_edit'));
         }
@@ -35,7 +34,7 @@ class TwitterController extends Controller
     {
         $current_user = $this->getUser();
 
-        if ($current_user && is_a($current_user, 'Tom32i\UserBundle\Entity\User') && $current_user->isValid())
+        if ($current_user && is_a($current_user, $this->container->getParameter('user_class')) && $current_user->isValid())
         {
             return $this->redirect($this->generateUrl('profile_edit'));
         }
@@ -60,7 +59,7 @@ class TwitterController extends Controller
     {
         $current_user = $this->getUser();
 
-        if ($current_user && is_a($current_user, 'Tom32i\UserBundle\Entity\User') && $current_user->isValid())
+        if ($current_user && is_a($current_user, $this->container->getParameter('user_class')) && $current_user->isValid())
         {
 
             $current_user->resetTwitter();
@@ -132,7 +131,7 @@ class TwitterController extends Controller
     {
         $current_user = $this->getUser();
 
-        if ($current_user && is_a($current_user, 'Tom32i\UserBundle\Entity\User') && $current_user->isValid())
+        if ($current_user && is_a($current_user, $this->container->getParameter('user_class')) && $current_user->isValid())
         {
             $em = $this->getDoctrine()->getEntityManager();
             $user = $this->getUserFromTwitter($access_token['user_id']);
@@ -200,7 +199,7 @@ class TwitterController extends Controller
             $num ++;
         }
 
-		$user = new User();
+		$user = new $this->container->getParameter('user_class');
 
         $user->setUsername($username);
         $user->setEnabled(true);
@@ -282,7 +281,6 @@ class TwitterController extends Controller
 
                 return $this->redirect($this->generateUrl($action));
         }
-
     }
 
     /**
@@ -290,7 +288,7 @@ class TwitterController extends Controller
      *
      * @param \Tom32i\UserBundle\Entity\User       $user
      */
-    private function authenticateUser(User $user)
+    private function authenticateUser($user)
     {
         // Create the authentication token
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
@@ -304,6 +302,6 @@ class TwitterController extends Controller
 
         $user = $em->getRepository('Tom32iUserBundle:User')->findOneBy( array( 'twitterUserId' => $uid) );
 
-        return ($user && is_a($user, 'Tom32i\UserBundle\Entity\User') && $user->isValid()) ? $user : false;
+        return ($user && is_a($user, $this->container->getParameter('user_class')) && $user->isValid()) ? $user : false;
     }
 }
