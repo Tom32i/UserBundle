@@ -17,8 +17,7 @@
     {% endif %}
 
     {#}<input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />{#}
-    {% set redirect = 'redirect'|getParam() %}
-    {% if redirect %}
+    {% if redirect is defined and redirect %}
     <input type="hidden" name="_target_path" value="{{ redirect }}" />
     {% endif %}
 
