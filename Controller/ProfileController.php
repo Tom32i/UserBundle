@@ -139,23 +139,7 @@ class ProfileController extends Controller
                 }
                 else
                 {
-                    $confirmation = new Confirmation($user, Confirmation::ACTION_PASSWORD);
-
-                    $em->persist($confirmation);
-                    $em->flush();
-
-                    $content = $this->renderView('Tom32iUserBundle:Email:confirmation_password.html.twig', array(
-                        'confirmation' =>  $confirmation,
-                        'user' => $user,
-                    ));
-
-                    $message = \Swift_Message::newInstance()
-                        ->setSubject('Keeptools | Choose your new password')
-                        ->setFrom('noreply@keeptools.com')
-                        ->setTo(array($data->email => $user->name()))
-                        ->setBody($content, 'text/html')
-                    ;
-                    $this->get('mailer')->send($message);
+                    $this->sendPasswordConfirmation($user);
 
                     return array(
                         'data' => $data
@@ -176,24 +160,10 @@ class ProfileController extends Controller
     public function resendConfirmEmailAction()
     {
         $user = $this->getUser();
-
         $valid = $user->isEmailValid();
 
         if(!$valid)
         {
-            $em = $this->getDoctrine()->getEntityManager();
-
-            $confirmation = $em->getRepository('Tom32iUserBundle:Confirmation')->findOneBy(array(
-                'user' => $user,
-                'action' => Confirmation::ACTION_EMAIL
-            ));
-
-            if ($confirmation) 
-            {
-                $em->remove($confirmation);
-                $em->flush();
-            }
-
             $this->sendEmailConfirmation($user);
 
             $this->get('session')->getFlashBag()->add('success', "We just sent you another comfirmation email. Hopefuly you'll get this one ;).");
@@ -206,17 +176,25 @@ class ProfileController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $user->setEmailValid(false);
-        $confirmation = new Confirmation($user, Confirmation::ACTION_EMAIL);
+        $user->resetEmail();
 
         $em->persist($user);
-        $em->persist($confirmation);
         $em->flush();
 
         $mailer = $this->get('tom32i_user_mailer');
-        $mailer->sendToUser($user, 'Confirm your email adress', 'confirmation_email', array(
-            'confirmation' =>  $confirmation,
-            'user' => $user,
-        ));
+        $mailer->sendToUser($user, 'Confirm your email adress', 'confirmation_email', array('user' => $user));
+    }
+
+    private function sendPasswordConfirmation(&$user)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $user->resetPassword();
+
+        $em->persist($user);
+        $em->flush();
+
+        $mailer = $this->get('tom32i_user_mailer');
+        $mailer->sendToUser($user, 'Choose your new password', 'confirmation_password', array('user' => $user));
     }
 }

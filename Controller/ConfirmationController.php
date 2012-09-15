@@ -22,21 +22,19 @@ class ConfirmationController extends Controller
     {
     	$em = $this->getDoctrine()->getEntityManager();
 
-        $confirmation = $em->getRepository('Tom32iUserBundle:Confirmation')->findOneBy(array('token' => $token));
+        $user = $em->getRepository('Tom32iUserBundle:User')->findOneBy(array('confirmationToken' => $token));
 
-        if ($confirmation) 
+        if ($user) 
         {
             $current_user = $this->getUser();
-            $user = $confirmation->getUser();
 
-            if(	$confirmation->isValid(Confirmation::ACTION_EMAIL) 
-            	&& $current_user 
+            if(	$current_user 
                 && is_a($current_user, 'Tom32i\UserBundle\Entity\User') 
             	&& $current_user->isValid() 
             	&& $current_user->isEqualTo($user)
+                && $user->isConfrimationEmailValid()
             ) 
             {
-                $em->remove($confirmation);
         		$user->setEmailValid(true);
         		$em->persist($user);
                 $em->flush();
@@ -46,7 +44,6 @@ class ConfirmationController extends Controller
             else
             {
                 $this->get('session')->getFlashBag()->add('error', "We couldn't confirm your email address, the link you used is expired. Please try again.");
-                $em->remove($confirmation);
                 $em->flush();
             }
         }
@@ -66,50 +63,39 @@ class ConfirmationController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $confirmation = $em->getRepository('Tom32iUserBundle:Confirmation')->findOneBy(array('token' => $token));
+        $user = $em->getRepository('Tom32iUserBundle:User')->findOneBy(array('confirmationToken' => $token));
 
-        if ($confirmation) 
+        if ($user
+            && is_a($user, 'Tom32i\UserBundle\Entity\User') 
+            && $user->isValid() 
+            && $user->isConfirmationPasswordValid() 
+        ) 
         {
-            $user = $confirmation->getUser();
+            $form = $this->createForm(new PasswordResetType(), $user);
+            $request = $this->getRequest();
 
-            if( $confirmation->isValid(Confirmation::ACTION_PASSWORD) 
-                && $user 
-                && is_a($user, 'Tom32i\UserBundle\Entity\User') 
-                && $user->isValid() 
-            ) 
+            if ('POST' === $request->getMethod()) 
             {
-                $form = $this->createForm(new PasswordResetType(), $user);
-                $request = $this->getRequest();
+                $form->bindRequest($request);
 
-                if ('POST' === $request->getMethod()) 
+                if ($form->isValid()) 
                 {
-                    $form->bindRequest($request);
+                    $user->setPassword(null);
+                    $user->updatePassword($this->get('security.encoder_factory'));
 
-                    if ($form->isValid()) 
-                    {
-                        $user->setPassword(null);
-                        $user->updatePassword($this->get('security.encoder_factory'));
+                    $em->persist($user);
+                    $em->flush();
 
-                        $em->remove($confirmation);
-                        $em->persist($user);
-                        $em->flush();
+                    $this->authenticateUser($user);
 
-                        $this->authenticateUser($user);
-
-                        return $this->redirect($this->generateUrl('profile_edit'));
-                    }
+                    return $this->redirect($this->generateUrl('profile_edit'));
                 }
+            }
 
-                return array(
-                    'form' => $form->createView(),
-                    'token' => $token,
-                );
-            }
-            else
-            {
-                $em->remove($confirmation);
-                $em->flush();
-            }
+            return array(
+                'form' => $form->createView(),
+                'token' => $token,
+            );
         }
 
         $this->get('session')->getFlashBag()->add('error', "We can't let you change your password, the link you used is expired. Please try again.");

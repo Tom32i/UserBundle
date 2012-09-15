@@ -12,139 +12,154 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 /**
  * Tom32i\UserBundle\Entity\User
  *
+ * @ORM\MappedSuperclass
  */
-abstract class  User implements AdvancedUserInterface, EquatableInterface, \Serializable
+abstract class User implements AdvancedUserInterface, EquatableInterface, \Serializable
 {
-    /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
     /**
      * @var string $username
      *
      * @ORM\Column(name="username", type="string", length=255)
      */
-    private $username;
+    protected $username;
 
     /**
      * @var string $usernameCanonical
      *
      * @ORM\Column(name="username_canonical", type="string", length=255, unique=true)
      */
-    private $usernameCanonical;
+    protected $usernameCanonical;
 
     /**
      * @var string $email
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
-    private $email;
+    protected $email;
 
     /**
      * @var string $emailCanonical
      *
      * @ORM\Column(name="email_canonical", type="string", length=255, unique=true, nullable=true)
      */
-    private $emailCanonical;
+    protected $emailCanonical;
 
     /**
      * @var boolean $enabled
      *
      * @ORM\Column(name="enabled", type="boolean")
      */
-    private $enabled = false;
+    protected $enabled = false;
 
     /**
      * @var boolean $expired
      *
      * @ORM\Column(name="expired", type="boolean")
      */
-    private $expired = false;
+    protected $expired = false;
 
     /**
      * @var boolean $locked
      *
      * @ORM\Column(name="locked", type="boolean")
      */
-    private $locked = false;
+    protected $locked = false;
 
     /**
      * @var boolean $credentialsExpired
      *
      * @ORM\Column(name="credentials_expired", type="boolean")
      */
-    private $credentialsExpired = false;
+    protected $credentialsExpired = false;
 
     /**
      * @var boolean $emailValid
      *
      * @ORM\Column(name="emailValid", type="boolean")
      */
-    private $emailValid = false;
+    protected $emailValid = false;
 
     /**
      * @var string $salt
      *
      * @ORM\Column(name="salt", type="string", length=255)
      */
-    private $salt;
+    protected $salt;
 
     /**
      * @var string $password
      *
      * @ORM\Column(name="password", type="string", length=255, nullable=true)
      */
-    private $password;
+    protected $password;
 
     /**
      * @var array $roles
      *
      * @ORM\Column(name="roles", type="array")
      */
-    private $roles;
+    protected $roles;
 
     /**
      * @var \DateTime $register
      *
      * @ORM\Column(name="register", type="datetime")
      */
-    private $register;
+    protected $register;
 
     /**
      * @var integer $twitterUserId
      *
      * @ORM\Column(name="twitter_user_id", type="integer", unique=true, nullable=true)
      */
-    private $twitterUserId;
+    protected $twitterUserId;
 
     /**
      * @var string $twitterScreenName
      *
      * @ORM\Column(name="twitter_screen_name", type="string", length=255, nullable=true)
      */
-    private $twitterScreenName;
+    protected $twitterScreenName;
 
     /**
      * @var array $twitterToken
      *
      * @ORM\Column(name="twitter_token", type="array", length=255, nullable=true)
      */
-    private $twitterToken;
+    protected $twitterToken;
+
+    /**
+     * Random string sent to the user email address in order to verify it
+     *
+     * @var string $confirmationToken
+     *
+     * @ORM\Column(name="confirmation_token", type="array", length=255, nullable=true)
+     */
+    protected $confirmationToken;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="password_requested_at", type="datetime")
+     */
+    protected $passwordRequestedAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="email_requested_at", type="datetime")
+     */
+    protected $emailRequestedAt;
 
     public $currentPassword;
     public $plainPassword;
-    public $validations;
 
     /* META */
 
     public function __construct()
     {
         $this->salt = md5(uniqid(null, true));
+        $this->confirmationToken = md5(uniqid(null, true));
         $this->roles = array('ROLE_USER');
         $this->register = new \DateTime();
     }
@@ -770,7 +785,72 @@ abstract class  User implements AdvancedUserInterface, EquatableInterface, \Seri
         return $this->emailValid;
     }
 
-     public function onProfileEdit()
+    /**
+     * Reset Confirmation Token
+     */
+    public function resetConfirmationToken()
+    {
+        $this->confirmationToken = md5(uniqid(null, true));
+    }
+
+    /**
+     * Is Confirmation Password Valid
+     *
+     * @return boolean
+     */
+    public function isConfirmationPasswordValid()
+    {
+        if($this->passwordRequestedAt == null)
+        {
+            return false;
+        }
+
+        $diff = $this->passwordRequestedAt->diff( new \DateTime() );
+
+        return $diff->i <= 15;
+    }
+
+    /**
+     * Is Confirmation Email Valid
+     *
+     * @return boolean
+     */
+    public function isConfirmationEmailValid()
+    {
+        if($this->emailRequestedAt == null)
+        {
+            return false;
+        }
+
+        $diff = $this->emailpasswordRequestedAt->diff( new \DateTime() );
+
+        return $diff->h <= 1;
+    }
+
+    /**
+     * Reset Password
+     *
+     * @return boolean
+     */
+    public function resetPassword()
+    {
+        $this->resetConfirmationToken();
+        $this->passwordRequestedAt = new \DateTime();
+    }
+
+    /**
+     * Reset Email
+     *
+     * @return boolean
+     */
+    public function resetEmail()
+    {
+        $this->resetConfirmationToken();
+        $this->emailRequestedAt = new \DateTime();
+        $this->emailValid = false;
+    }
+
+    public function onProfileEdit()
     {
         
     }
