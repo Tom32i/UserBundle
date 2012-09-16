@@ -16,6 +16,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  */
 abstract class User implements AdvancedUserInterface, EquatableInterface, \Serializable
 {
+    protected $id;
+    
     /**
      * @var string $username
      *
