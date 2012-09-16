@@ -19,7 +19,7 @@ class RegistrationController extends Controller
     {
         $className = $this->container->getParameter('user_class');
 	    $user = new $className;
-    	$form = $this->createForm(new RegisterType($this->container->getParameter('user_class')), $user);
+    	$form = $this->createForm($this->container->get('tom32i_user.registration.form'), $user);
     	$request = $this->getRequest();
 
         if ('POST' === $request->getMethod()) 

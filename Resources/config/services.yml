@@ -1,15 +1,40 @@
 services:
+
+    # VALIDATORS:
+
     tom32i_user.validator.initializer:
         class: Tom32i\UserBundle\Validator\Initializer
         public: false
         tags:
             - { name: validator.initializer }
 
+    # MAILER:
+
     tom32i_mailer:
         class:        Tom32i\UserBundle\Services\Mailer
         arguments:    [@mailer, @templating, tom32i_user.site_name, tom32i_user.email]
+
+    # TWIG:
 
     twig.extension.tom32i_user_twigext:
         class: Tom32i\UserBundle\Twig\Extension\AppExtension
         tags:
             - { name: twig.extension }
+
+    # FORMS:
+
+    tom32i_user.registration.form:
+        class:        Tom32i\UserBundle\Form\RegistrationType
+        arguments:    [tom32i_user.user_class]
+
+    tom32i_user.profile.form:
+        class:        Tom32i\UserBundle\Form\ProfileType
+        arguments:    [tom32i_user.user_class]
+
+    tom32i_user.password_reset.form:
+        class:        Tom32i\UserBundle\Form\PasswordResetType
+        arguments:    [tom32i_user.user_class]
+
+    tom32i_user.delete.form:
+        class:        Tom32i\UserBundle\Form\DeleteType
+        arguments:    [tom32i_user.user_class]

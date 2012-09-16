@@ -22,7 +22,7 @@ class ProfileController extends Controller
         $user = $this->getUser();
         $currentMail = $user->getEmail();
 
-        $form = $this->createForm(new ProfileType($this->container->getParameter('user_class')), $user);
+        $form = $this->createForm($this->container->get('tom32i_user.profile.form'), $user);
         $request = $this->getRequest();
 
         if ('POST' === $request->getMethod()) 
@@ -69,7 +69,7 @@ class ProfileController extends Controller
     public function deleteAction()
     {
         $user = $this->getUser();
-        $form = $this->createForm(new DeleteType($this->container->getParameter('user_class')), $user);
+        $form = $this->createForm($this->container->get('tom32i_user.delete.form'), $user);
         $request = $this->getRequest();
 
         if ('POST' === $request->getMethod()) 
