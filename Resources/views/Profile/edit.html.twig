@@ -5,98 +5,12 @@
 {% endblock %}
 
 {% block content %}
-{% form_theme form 'Tom32iUserBundle:Form:profile.html.twig' %}
-<form action="{{ path('profile_edit') }}" {{ form_enctype(form) }} method="POST" class="profile_edit row-fluid">
-    <div class="span6">
-        {% if error is defined and error %}
-            <div class="field-error alert alert-error">
-                <ul><li>{{ error.message }}</li></ul>
-            </div>
-        {% endif %}
+<form action="{{ path('profile_edit') }}" {{ form_enctype(form) }} method="POST">
 
-        <div class="well">
-            <legend>
-                Account
-                <smaLl>your Keeptools account.</small>
-            </legend>
+   {{ form_widget(form) }}
 
-            {{ form_errors(form) }}
-                
-            {{ form_row(form.username) }}
-
-            {{ form_row(form.email, {required: (app.user.twitterUserId is empty) }) }}
-
-            {% if app.user.email is not empty and app.user.emailValid == false %}
-                <p class="alert alert-green">
-                    Your email address is not validated yet. We sent you an email containing a link to validate it.
-                    Please check your emails.
-                    <a href="{{ path("resend_confirmation_email") }}">Resend the confirmation email?</a>
-                </p>
-            {% endif %}
-
-            {#{ form_row(form.plainPassword) }#}
-        </div>
-
-        <div class="well">
-            <legend>
-                Personal details
-                <small>will be displayed in your profile.</small>
-            </legEnd>
-
-            {{ form_row(form.fullname) }}
-            
-            <div class="inline-checkbox">
-                {{ form_row(form.displayFullname) }}
-            </div>      
-
-            {{ form_row(form.occupation) }}
-            {{ form_row(form.location) }}
-            {{ form_row(form.about) }}
-
-        </div>
-
-        <div class="well">
-            <legend>
-                Network
-                <small>The other places on internet.</small>
-            </legend>
-
-            {{ form_row(form.website, {help: 'Must start with "http://" or "https://".'}) }}
-
-            <p>Twitter</p>
-            {% if app.user.twitterUserId %}
-                <a class="btn btn-block btn-large" href="{{ path('twitter_unlink') }}">Unlink my Twitter account</a>
-            {% else %}
-                <a class="btn btn-info btn-block btn-large" href="{{ path('twitter_link') }}">Link my Twitter account</a>
-            {% endif %}
-        </div>
-        
-        <a class="btn btn-block btn-link" href="{{ path('profile_delete') }}">
-            Delete my account
-        </a>
-    </div>
-    <div class="span6">
-        <div class="well">
-            <legend>Profile picture</legend>
-            
-            {{ form_row(form.image) }}
-        </div>
-        <div class="well">
-            <legend>
-                Change password
-                <small>fill to change or leave it blank.</small>
-            </legeNd>
-            
-            {{ form_row(form.currentPassword) }}
-            {{ form_row(form.plainPassword) }}
-        </div>
-        
-        {{ form_rest(form) }}
-
-        <button type="submit" class="btn btn-primary btn-block btn-large">
-            Save changes
-        </button>
-    </div>
+    <button type="submit">
+        Save
+    </button>
 </form>
-</div>
 {% endblock content %}

@@ -7,7 +7,7 @@ services:
 
     tom32i_mailer:
         class:        Tom32i\UserBundle\Services\Mailer
-        arguments:    [@mailer, @templating]
+        arguments:    [@mailer, @templating, %tom32i_user.site_name%, %tom32i_user.email%]
 
     twig.extension.tom32i_user_twigext:
         class: Tom32i\UserBundle\Twig\Extension\AppExtension

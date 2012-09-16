@@ -1,7 +1,7 @@
-<form action="{{ path("login_check") }}" method="post" class="form-grid">
+<form action="{{ path("login_check") }}" method="post">
 
     {% if error is defined and error %}
-        <div class="field-error alert alert-error">
+        <div class="error">
             <ul>
                 <li>
                     Wrong username or password.
@@ -16,37 +16,24 @@
         </div>
     {% endif %}
 
-    {#}<input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />{#}
     {% if redirect is defined and redirect %}
-    <input type="hidden" name="_target_path" value="{{ redirect }}" />
+        <input type="hidden" name="_target_path" value="{{ redirect }}" />
     {% endif %}
 
-    <div class="control-group">
-        <div class="controls">
-            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class="span12" placeholder="Username" 
-        />
-        </div>
-    </div>
+    <label for="username">Username</label>
+    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
 
-    <div class="control-group">
-        <div class="controls">
-            <input type="password" id="password" name="_password" class="span12" required="required" placeholder="Password" 
-        />
-        </div>
-    </div>
+    <label for="password">Password</label>
+    <input type="password" id="password" name="_password" required="required" />
 
-    <div class="control-group">
-        <div class="controls">
-            <label for="remember_me" class="checkbox">
-                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-                Remember me
-            </label>
-        </div>
-    </div>
+    <label for="remember_me">
+        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+        Remember me
+    </label>
 
-    <button class="btn btn-primary btn-large btn-block" type="submit" >
+    <button type="submit" >
         Login
     </button>
     
-    <a class="btn btn-info  btn-large btn-block" href="{{ path('twitter_login') }}">Login with Twitter</a>
+    <a href="{{ path('twitter_login') }}">Login with Twitter</a>
 </form>

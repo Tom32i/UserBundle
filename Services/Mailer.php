@@ -9,11 +9,15 @@ class Mailer
 {
 	protected $mailer;
     protected $templating;
+    protected $sitename;
+    protected $email;
 
-    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating)
+    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, $sitename, $email)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->sitename = $sitename;
+        $this->email = $email;
     }
 
     public function sendToUser(User $user, $title, $template, $params)
@@ -26,9 +30,9 @@ class Mailer
     	$content = $this->templating->render('Tom32iUserBundle:Email:' . $template . '.html.twig', $params);
 
         $message = \Swift_Message::newInstance()
-            ->setSubject('Keeptools | ' . $title)
-            ->setFrom('noreply@keeptools.com')
-            ->setTo(array($user->getEmail() => $user->name()))
+            ->setSubject($this->sitename . ' | ' . $title)
+            ->setFrom($this->email)
+            ->setTo(array($user->getEmail() => $user->getName()))
             ->setBody($content, 'text/html')
         ;
 
