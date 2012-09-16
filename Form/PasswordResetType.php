@@ -17,7 +17,7 @@ class PasswordResetType extends AbstractType
     {
         $this->class = $class;
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('plainPassword', 'repeated', array(
@@ -39,6 +39,6 @@ class PasswordResetType extends AbstractType
 
     public function getName()
     {
-        return 'tom32i_userbundle_passwordresetTypetype';
+        return 'tom32i_user_password_reset';
     }
 }

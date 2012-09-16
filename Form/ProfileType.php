@@ -17,7 +17,7 @@ class ProfileType extends AbstractType
     {
         $this->class = $class;
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     { 
 
@@ -48,7 +48,7 @@ class ProfileType extends AbstractType
 
     public function getName()
     {
-        return 'tom32i_userbundle_profiletype';
+        return 'tom32i_user_profile';
     }
 }
 

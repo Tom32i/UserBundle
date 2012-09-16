@@ -18,7 +18,7 @@ class DeleteType extends AbstractType
     {
         $this->class = $class;
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     { 
         $builder->add('currentPassword', 'password', array(
@@ -37,7 +37,7 @@ class DeleteType extends AbstractType
 
     public function getName()
     {
-        return 'tom32i_userbundle_deletetype';
+        return 'tom32i_user_delete';
     }
 }
 

@@ -23,6 +23,6 @@ class PasswordRequestType extends AbstractType
 
     public function getName()
     {
-        return 'tom32i_userbundle_passwordrequesttype';
+        return 'tom32i_user_password_request';
     }
 }

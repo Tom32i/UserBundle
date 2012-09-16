@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UserType extends AbstractType
+class RegistrationType extends AbstractType
 {
     private $class;
 
@@ -17,7 +17,7 @@ class UserType extends AbstractType
     {
         $this->class = $class;
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -43,6 +43,6 @@ class UserType extends AbstractType
 
     public function getName()
     {
-        return 'tom32i_userbundle_usertype';
+        return 'tom32i_user_registration';
     }
 }
