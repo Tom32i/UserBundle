@@ -24,6 +24,10 @@ class ProfileType extends AbstractType
         $builder
             ->add('username')
             ->add('email')
+            ->add('currentPassword', 'password', array(
+                'label' => "Current password",
+                'required' => false,
+            ))
             ->add('plainPassword', 'repeated', array(
                 'first_name' => 'password',
                 'second_name' => 'confirm',
@@ -34,8 +38,6 @@ class ProfileType extends AbstractType
                 'second_options' => array('label' => "Verification"),
             ))
         ;
-
-        //$builder->get('current_password')->setAttribute('label', 'current password');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
