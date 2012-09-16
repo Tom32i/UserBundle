@@ -25,16 +25,16 @@ services:
 
     tom32i_user.registration.form:
         class:        Tom32i\UserBundle\Form\RegistrationType
-        arguments:    []
+        arguments:    [%tom32i_user.user_class%]
 
     tom32i_user.profile.form:
         class:        Tom32i\UserBundle\Form\ProfileType
-        arguments:    []
+        arguments:    [%tom32i_user.user_class%]
 
     tom32i_user.password_reset.form:
         class:        Tom32i\UserBundle\Form\PasswordResetType
-        arguments:    []
+        arguments:    [%tom32i_user.user_class%]
 
     tom32i_user.delete.form:
         class:        Tom32i\UserBundle\Form\DeleteType
-        arguments:    []
+        arguments:    [%tom32i_user.user_class%]

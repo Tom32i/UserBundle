@@ -18,7 +18,7 @@ class TwitterController extends Controller
     {
         $current_user = $this->getUser();
 
-        if ($current_user && is_a($current_user, $this->container->getParameter('user_class')) && $current_user->isValid())
+        if ($current_user && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) && $current_user->isValid())
         {
             return $this->redirect($this->generateUrl('profile_edit'));
         }
@@ -34,7 +34,7 @@ class TwitterController extends Controller
     {
         $current_user = $this->getUser();
 
-        if ($current_user && is_a($current_user, $this->container->getParameter('user_class')) && $current_user->isValid())
+        if ($current_user && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) && $current_user->isValid())
         {
             return $this->redirect($this->generateUrl('profile_edit'));
         }
@@ -59,7 +59,7 @@ class TwitterController extends Controller
     {
         $current_user = $this->getUser();
 
-        if ($current_user && is_a($current_user, $this->container->getParameter('user_class')) && $current_user->isValid())
+        if ($current_user && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) && $current_user->isValid())
         {
 
             $current_user->resetTwitter();
@@ -89,8 +89,8 @@ class TwitterController extends Controller
 
 		/* Create TwitteroAuth object with app key/secret and token key/secret from default phase */
 		$connection = new TwitterOAuth(
-			$this->container->getParameter('twitter_consumer_key'), 
-			$this->container->getParameter('twitter_consumer_secret'), 
+			$this->container->getParameter('tom32i_user.twitter_consumer_key'), 
+			$this->container->getParameter('tom32i_user.twitter_consumer_secret'), 
 			$session->get('oauth_token'), 
 			$session->get('oauth_token_secret')
 		);
@@ -131,7 +131,7 @@ class TwitterController extends Controller
     {
         $current_user = $this->getUser();
 
-        if ($current_user && is_a($current_user, $this->container->getParameter('user_class')) && $current_user->isValid())
+        if ($current_user && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) && $current_user->isValid())
         {
             $em = $this->getDoctrine()->getEntityManager();
             $user = $this->getUserFromTwitter($access_token['user_id']);
@@ -188,7 +188,7 @@ class TwitterController extends Controller
         }
 
         $em = $this->getDoctrine()->getEntityManager();
-        $um = $em->getRepository($this->container->getParameter('user_class'));
+        $um = $em->getRepository($this->container->getParameter('tom32i_user.user_class'));
 
         $username = $user_data->screen_name;
         $num = 1;
@@ -199,7 +199,7 @@ class TwitterController extends Controller
             $num ++;
         }
 
-        $classname = $this->container->getParameter('user_class');
+        $classname = $this->container->getParameter('tom32i_user.user_class');
 		$user = new $classname;
 
         $user->setUsername($username);
@@ -236,8 +236,8 @@ class TwitterController extends Controller
 
     	/* Build TwitterOAuth object with client credentials. */
 		$connection = new TwitterOAuth(
-			$this->container->getParameter('twitter_consumer_key'), 
-			$this->container->getParameter('twitter_consumer_secret')
+			$this->container->getParameter('tom32i_user.twitter_consumer_key'), 
+			$this->container->getParameter('tom32i_user.twitter_consumer_secret')
 		);
 		 
 		/* Get temporary credentials. */
@@ -301,8 +301,8 @@ class TwitterController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $user = $em->getRepository($this->container->getParameter('user_class'))->findOneBy( array( 'twitterUserId' => $uid) );
+        $user = $em->getRepository($this->container->getParameter('tom32i_user.user_class'))->findOneBy( array( 'twitterUserId' => $uid) );
 
-        return ($user && is_a($user, $this->container->getParameter('user_class')) && $user->isValid()) ? $user : false;
+        return ($user && is_a($user, $this->container->getParameter('tom32i_user.user_class')) && $user->isValid()) ? $user : false;
     }
 }

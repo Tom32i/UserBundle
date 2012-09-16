@@ -22,14 +22,14 @@ class ConfirmationController extends Controller
     {
     	$em = $this->getDoctrine()->getEntityManager();
 
-        $user = $em->getRepository($this->container->getParameter('user_class'))->findOneBy(array('confirmationToken' => $token));
+        $user = $em->getRepository($this->container->getParameter('tom32i_user.user_class'))->findOneBy(array('confirmationToken' => $token));
 
         if ($user) 
         {
             $current_user = $this->getUser();
 
             if(	$current_user 
-                && is_a($current_user, $this->container->getParameter('user_class')) 
+                && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) 
             	&& $current_user->isValid() 
             	&& $current_user->isEqualTo($user)
                 && $user->isConfrimationEmailValid()
@@ -63,10 +63,10 @@ class ConfirmationController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $user = $em->getRepository($this->container->getParameter('user_class'))->findOneBy(array('confirmationToken' => $token));
+        $user = $em->getRepository($this->container->getParameter('tom32i_user.user_class'))->findOneBy(array('confirmationToken' => $token));
 
         if ($user
-            && is_a($user, $this->container->getParameter('user_class')) 
+            && is_a($user, $this->container->getParameter('tom32i_user.user_class')) 
             && $user->isValid() 
             && $user->isConfirmationPasswordValid() 
         ) 

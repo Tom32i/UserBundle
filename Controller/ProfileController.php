@@ -22,7 +22,7 @@ class ProfileController extends Controller
         $user = $this->getUser();
         $currentMail = $user->getEmail();
 
-        $form_type = $this->container->get($this->container->getParameter('form_profile'));
+        $form_type = $this->container->get($this->container->getParameter('tom32i_user.form_profile'));
         $form = $this->createForm($form_type, $user);
         $request = $this->getRequest();
 
@@ -130,7 +130,7 @@ class ProfileController extends Controller
             if ($form->isValid()) 
             {
                 $em = $this->getDoctrine()->getEntityManager();
-                $user = $em->getRepository($this->container->getParameter('user_class'))->findOneBy(array('email' => $data->email));
+                $user = $em->getRepository($this->container->getParameter('tom32i_user.user_class'))->findOneBy(array('email' => $data->email));
 
                 if (!$user) 
                 {

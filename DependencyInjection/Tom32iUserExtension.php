@@ -38,13 +38,13 @@ class Tom32iUserExtension extends Extension
                 
                     foreach ($value as $param => $str) 
                     {
-                        $container->setParameter($key.'_'.$param, $str);
+                        $container->setParameter('tom32i_user.' . $key . '.' . $param, $str);
                     }
 
                     break;
                 
                 default:
-                    $container->setParameter($key, $value);
+                    $container->setParameter('tom32i_user.' . $key, $value);
                     break;
             }
         }
@@ -52,13 +52,12 @@ class Tom32iUserExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $forms = array('registration', 'profile', 'password_reset', 'delete');
+        /*$forms = array('registration', 'profile', 'password_reset', 'delete');
 
         foreach ($forms as $form) 
         {
             $container->getDefinition('tom32i_user.' . $form . '.form')->addArgument($config['user_class']);
-        }
-
+        }*/
     }
  
     public function getAlias()

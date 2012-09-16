@@ -17,7 +17,7 @@ class RegistrationController extends Controller
      */
     public function registerAction()
     {
-        $className = $this->container->getParameter('user_class');
+        $className = $this->container->getParameter('tom32i_user.user_class');
 	    $user = new $className;
     	$form = $this->createForm($this->container->get('tom32i_user.registration.form'), $user);
     	$request = $this->getRequest();
