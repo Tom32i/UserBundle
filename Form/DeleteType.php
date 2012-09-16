@@ -9,6 +9,16 @@ use Tom32i\UserBundle\Form\ImageType;
 
 class DeleteType extends AbstractType
 {
+    private $class;
+
+    /**
+     * @param string $class The User class name
+     */
+    public function __construct($class)
+    {
+        $this->class = $class;
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     { 
         $builder->add('currentPassword', 'password', array(
@@ -20,7 +30,7 @@ class DeleteType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Tom32i\UserBundle\Entity\User',
+            'data_class' => $this->class,
             'validation_groups' => array('delete')
         ));
     }

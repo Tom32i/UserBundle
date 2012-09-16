@@ -5,8 +5,6 @@ namespace Tom32i\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Tom32i\UserBundle\Entity\User;
-use Tom32i\UserBundle\Entity\Confirmation;
 use Tom32i\UserBundle\Form\Model\PasswordRequest;
 use Tom32i\UserBundle\Form\ProfileType;
 use Tom32i\UserBundle\Form\DeleteType;
@@ -24,7 +22,7 @@ class ProfileController extends Controller
         $user = $this->getUser();
         $currentMail = $user->getEmail();
 
-        $form = $this->createForm(new ProfileType(), $user);
+        $form = $this->createForm(new ProfileType($this->container->getParameter('user_class')), $user);
         $request = $this->getRequest();
 
         if ('POST' === $request->getMethod()) 
@@ -71,7 +69,7 @@ class ProfileController extends Controller
     public function deleteAction()
     {
         $user = $this->getUser();
-        $form = $this->createForm(new DeleteType(), $user);
+        $form = $this->createForm(new DeleteType($this->container->getParameter('user_class')), $user);
         $request = $this->getRequest();
 
         if ('POST' === $request->getMethod()) 
