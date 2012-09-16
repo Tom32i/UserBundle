@@ -34,6 +34,7 @@ class Tom32iUserExtension extends Extension
             switch ($key) 
             {
                 case 'twitter':
+                case 'form':
                 
                     foreach ($value as $param => $str) 
                     {
@@ -47,7 +48,7 @@ class Tom32iUserExtension extends Extension
                     break;
             }
         }
-        
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
