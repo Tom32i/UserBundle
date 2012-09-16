@@ -89,8 +89,8 @@ class TwitterController extends Controller
 
 		/* Create TwitteroAuth object with app key/secret and token key/secret from default phase */
 		$connection = new TwitterOAuth(
-			$this->container->getParameter('tom32i_user.twitter_consumer_key'), 
-			$this->container->getParameter('tom32i_user.twitter_consumer_secret'), 
+			$this->container->getParameter('tom32i_user.twitter.consumer_key'), 
+			$this->container->getParameter('tom32i_user.twitter.consumer_secret'), 
 			$session->get('oauth_token'), 
 			$session->get('oauth_token_secret')
 		);
@@ -236,8 +236,8 @@ class TwitterController extends Controller
 
     	/* Build TwitterOAuth object with client credentials. */
 		$connection = new TwitterOAuth(
-			$this->container->getParameter('tom32i_user.twitter_consumer_key'), 
-			$this->container->getParameter('tom32i_user.twitter_consumer_secret')
+			$this->container->getParameter('tom32i_user.twitter.consumer_key'), 
+			$this->container->getParameter('tom32i_user.twitter.consumer_secret')
 		);
 		 
 		/* Get temporary credentials. */

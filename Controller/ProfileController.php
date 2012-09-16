@@ -22,7 +22,7 @@ class ProfileController extends Controller
         $user = $this->getUser();
         $currentMail = $user->getEmail();
 
-        $form_type = $this->container->get($this->container->getParameter('tom32i_user.form_profile'));
+        $form_type = $this->container->get($this->container->getParameter('tom32i_user.form.profile'));
         $form = $this->createForm($form_type, $user);
         $request = $this->getRequest();
 
