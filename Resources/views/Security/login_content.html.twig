@@ -21,7 +21,7 @@
     {% endif %}
 
     <label for="username">Username</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+    <input type="text" id="username" name="_username" value="{{ last_username is defined ? last_username : null }}" required="required" />
 
     <label for="password">Password</label>
     <input type="password" id="password" name="_password" required="required" />
