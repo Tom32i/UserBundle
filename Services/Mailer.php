@@ -22,10 +22,14 @@ class Mailer
 
     public function sendToUser(User $user, $title, $template, $params)
     {
-    	if(!array_key_exists('title', $params))
-    	{
-    		$params['title'] = $title;
-    	}
+        if(!array_key_exists('title', $params))
+        {
+            $params['title'] = $title;
+        }
+        if(!array_key_exists('user', $params))
+        {
+            $params['user'] = $user;
+        }
 
     	$content = $this->templating->render('Tom32iUserBundle:Email:' . $template . '.html.twig', $params);
 

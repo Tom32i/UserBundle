@@ -39,7 +39,7 @@ class RegistrationController extends Controller
                 {
                     $user->resetEmail();
                     $mailer = $this->get('tom32i_user_mailer');
-                    $mailer->sendToUser($user, 'Confirm your email adress', 'confirmation_email', array('user' => $user));
+                    $mailer->sendToUser($user, 'Confirm your email adress', 'confirmation_email');
                 }
 
 		        $em->persist($user);

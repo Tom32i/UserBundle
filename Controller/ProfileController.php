@@ -181,7 +181,7 @@ class ProfileController extends Controller
         $em->flush();
 
         $mailer = $this->get('tom32i_user_mailer');
-        $mailer->sendToUser($user, 'Confirm your email adress', 'confirmation_email', array('user' => $user));
+        $mailer->sendToUser($user, 'Confirm your email adress', 'confirmation_email');
     }
 
     private function sendPasswordConfirmation(&$user)
@@ -194,6 +194,6 @@ class ProfileController extends Controller
         $em->flush();
 
         $mailer = $this->get('tom32i_user_mailer');
-        $mailer->sendToUser($user, 'Choose your new password', 'confirmation_password', array('user' => $user));
+        $mailer->sendToUser($user, 'Choose your new password', 'confirmation_password');
     }
 }
