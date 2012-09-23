@@ -20,7 +20,7 @@ class Mailer
         $this->email = $email;
     }
 
-    public function sendToUser(User $user, $title, $template, $params)
+    public function sendToUser(User $user, $title, $template, $params = array())
     {
         if(!array_key_exists('title', $params))
         {
