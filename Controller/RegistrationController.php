@@ -33,9 +33,9 @@ class RegistrationController extends Controller
 	    		$user->updatePassword($this->get('security.encoder_factory'));
 	    		$user->setEnabled(true);
 
-                $email = !empty($user->getEmail());
+                $email = $user->getEmail();
 
-                if($email)
+                if(!empty($email))
                 {
                     $user->resetEmail();
                     $mailer = $this->get('tom32i_user_mailer');
