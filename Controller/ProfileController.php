@@ -34,7 +34,7 @@ class ProfileController extends Controller
             {
                 $em = $this->getDoctrine()->getEntityManager();
 
-                $user->onProfileEdit();
+                //$user->onProfileEdit();
 
                 $passwordChanged = $user->updatePassword($this->get('security.encoder_factory'));
 
