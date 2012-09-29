@@ -847,7 +847,7 @@ abstract class User implements AdvancedUserInterface, EquatableInterface, \Seria
             return false;
         }
 
-        $diff = $this->emailpasswordRequestedAt->diff( new \DateTime() );
+        $diff = $this->emailRequestedAt->diff( new \DateTime() );
 
         return $diff->h <= 1;
     }

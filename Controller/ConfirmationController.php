@@ -32,7 +32,7 @@ class ConfirmationController extends Controller
                 && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) 
             	&& $current_user->isValid() 
             	&& $current_user->isEqualTo($user)
-                && $user->isConfrimationEmailValid()
+                && $user->isConfirmationEmailValid()
             ) 
             {
         		$user->setEmailValid(true);
