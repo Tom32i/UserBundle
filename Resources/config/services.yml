@@ -12,7 +12,7 @@ services:
 
     tom32i_user_mailer:
         class:        Tom32i\UserBundle\Services\Mailer
-        arguments:    [@mailer, @templating, tom32i_user.site_name, tom32i_user.email]
+        arguments:    [@mailer, @templating, %tom32i_user.site_name%, %tom32i_user.email%]
 
     # TWIG:
 

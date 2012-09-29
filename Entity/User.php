@@ -728,6 +728,29 @@ abstract class User implements AdvancedUserInterface, EquatableInterface, \Seria
     }
 
     /**
+     * Set confirmation token
+     *
+     * @param boolean $confirmation_token
+     * @return User
+     */
+    public function setConfirmationToken($confirmation_token)
+    {
+        $this->confirmationToken = $confirmation_token;
+    
+        return $this;
+    }
+
+    /**
+     * Get confirmation token
+     *
+     * @return boolean 
+     */
+    public function getConfirmationToken()
+    {
+        return $this->confirmationToken;
+    }
+
+    /**
      * Set credentialsExpired
      *
      * @param boolean $credentialsExpired

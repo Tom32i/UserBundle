@@ -99,7 +99,7 @@ class ProfileController extends Controller
                     $em->remove($user);
                     $em->flush();
 
-                    return $this->redirect($this->generateUrl('homepage'));
+                    return $this->redirect($this->generateUrl($this->get('redirection.delete')));
                 }
                 else
                 {

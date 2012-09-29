@@ -36,7 +36,7 @@ class Mailer
         $message = \Swift_Message::newInstance()
             ->setSubject($this->sitename . ' | ' . $title)
             ->setFrom($this->email)
-            ->setTo(array($user->getEmail() => $user->getName()))
+            ->setTo(array($user->getEmail() => $user->getUsername()))
             ->setBody($content, 'text/html')
         ;
 
