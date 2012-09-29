@@ -35,6 +35,7 @@ class Tom32iUserExtension extends Extension
             {
                 case 'twitter':
                 case 'form':
+                case 'redirection':
                 
                     foreach ($value as $param => $str) 
                     {
