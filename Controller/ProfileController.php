@@ -99,7 +99,7 @@ class ProfileController extends Controller
                     $em->remove($user);
                     $em->flush();
 
-                    return $this->redirect($this->generateUrl($this->getParameter('tom32i_user.redirection.delete')));
+                    return $this->redirect($this->generateUrl($this->container->getParameter('tom32i_user.redirection.delete')));
                 }
                 else
                 {

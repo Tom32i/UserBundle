@@ -21,7 +21,7 @@ class RegistrationController extends Controller
 
         if ($current_user && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) && $current_user->isValid())
         {
-            return $this->redirect($this->generateUrl($this->getParameter('tom32i_user.redirection.register')));
+            return $this->redirect($this->generateUrl($this->container->getParameter('tom32i_user.redirection.register')));
         }
 
         $className = $this->container->getParameter('tom32i_user.user_class');
@@ -55,7 +55,7 @@ class RegistrationController extends Controller
 
 		        $this->authenticateUser($user);
 
-		        return $this->redirect($this->generateUrl($this->getParameter('tom32i_user.redirection.register')));
+		        return $this->redirect($this->generateUrl($this->container->getParameter('tom32i_user.redirection.register')));
 		    }
         }
 
