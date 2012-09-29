@@ -19,7 +19,7 @@ class SecurityController extends Controller
 
         if ($current_user && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) && $current_user->isValid())
         {
-            return $this->redirect($this->generateUrl($this->get('redirection.login')));
+            return $this->redirect($this->generateUrl($this->getParameter('tom32i_user.redirection.login')));
         }
         
     	$request = $this->getRequest();

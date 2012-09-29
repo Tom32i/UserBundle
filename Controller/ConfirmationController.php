@@ -52,7 +52,7 @@ class ConfirmationController extends Controller
             $this->get('session')->getFlashBag()->add('error', "We couldn't confirm your email address, the link you used is expired. Please try again.");
         }
 
-        return $this->redirect($this->generateUrl($this->get('redirection.emailConfirmed')));
+        return $this->redirect($this->generateUrl($this->getParameter('tom32i_user.redirection.emailConfirmed')));
     }
 
     /**
@@ -88,7 +88,7 @@ class ConfirmationController extends Controller
 
                     $this->authenticateUser($user);
 
-                    return $this->redirect($this->generateUrl($this->get('redirection.passwordReset')));
+                    return $this->redirect($this->generateUrl($this->getParameter('tom32i_user.redirection.passwordReset')));
                 }
             }
 

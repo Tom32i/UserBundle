@@ -20,7 +20,7 @@ class TwitterController extends Controller
 
         if ($current_user && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) && $current_user->isValid())
         {
-            return $this->redirect($this->generateUrl($this->get('redirection.login')));
+            return $this->redirect($this->generateUrl($this->getParameter('tom32i_user.redirection.login')));
         }
 
     	return $this->authenticate('login');
@@ -36,7 +36,7 @@ class TwitterController extends Controller
 
         if ($current_user && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) && $current_user->isValid())
         {
-            return $this->redirect($this->generateUrl($this->get('redirection.register')));
+            return $this->redirect($this->generateUrl($this->getParameter('tom32i_user.redirection.register')));
         }
 
     	return $this->authenticate('register');
@@ -163,7 +163,7 @@ class TwitterController extends Controller
         if($user)
         {
         	$this->authenticateUser($user);
-	        return $this->redirect($this->generateUrl($this->get('redirection.login')));
+	        return $this->redirect($this->generateUrl($this->getParameter('tom32i_user.redirection.login')));
         }
 
         $register = $this->generateUrl('twitter_register');
@@ -184,7 +184,7 @@ class TwitterController extends Controller
         if($user)
         {
             $this->authenticateUser($user);
-            return $this->redirect($this->generateUrl($this->get('redirection.register')));
+            return $this->redirect($this->generateUrl($this->getParameter('tom32i_user.redirection.register')));
         }
 
         $em = $this->getDoctrine()->getEntityManager();
@@ -219,7 +219,7 @@ class TwitterController extends Controller
 
         $this->authenticateUser($user);
 
-        return $this->redirect($this->generateUrl($this->get('redirection.register')));
+        return $this->redirect($this->generateUrl($this->getParameter('tom32i_user.redirection.register')));
     }
 
     private function request($varname)
@@ -280,7 +280,7 @@ class TwitterController extends Controller
             
             default:
 
-                return $this->redirect($this->generateUrl($this->get('redirection.' . $action)));
+                return $this->redirect($this->generateUrl($this->getParameter('tom32i_user.redirection.' . $action)));
         }
     }
 
