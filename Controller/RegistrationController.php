@@ -17,6 +17,13 @@ class RegistrationController extends Controller
      */
     public function registerAction()
     {
+        $current_user = $this->getUser();
+
+        if ($current_user && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) && $current_user->isValid())
+        {
+            return $this->redirect($this->generateUrl('profile_edit'));
+        }
+        
         $className = $this->container->getParameter('tom32i_user.user_class');
 	    $user = new $className;
         $form_type = $this->container->get($this->container->getParameter('tom32i_user.form.registration'));

@@ -15,6 +15,13 @@ class SecurityController extends Controller
      */
     public function loginAction()
     {
+        $current_user = $this->getUser();
+
+        if ($current_user && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) && $current_user->isValid())
+        {
+            return $this->redirect($this->generateUrl('profile_edit'));
+        }
+        
     	$request = $this->getRequest();
         $session = $request->getSession();
 
