@@ -23,18 +23,18 @@ services:
 
     # FORMS:
 
-    tom32i_user.registration.form:
+    tom32i_user.registration.form.type:
         class:        Tom32i\UserBundle\Form\RegistrationType
         arguments:    [%tom32i_user.user_class%]
 
-    tom32i_user.profile.form:
+    tom32i_user.profile.form.type:
         class:        Tom32i\UserBundle\Form\ProfileType
         arguments:    [%tom32i_user.user_class%]
 
-    tom32i_user.password_reset.form:
+    tom32i_user.password_reset.form.type:
         class:        Tom32i\UserBundle\Form\PasswordResetType
         arguments:    [%tom32i_user.user_class%]
 
-    tom32i_user.delete.form:
+    tom32i_user.delete.form.type:
         class:        Tom32i\UserBundle\Form\DeleteType
         arguments:    [%tom32i_user.user_class%]
