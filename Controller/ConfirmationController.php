@@ -71,7 +71,7 @@ class ConfirmationController extends Controller
             && $user->isConfirmationPasswordValid() 
         ) 
         {
-            $form = $this->createForm(new PasswordResetType(), $user);
+            $form = $this->createForm($this->get('tom32i_user.password_reset.form.type'), $user);
             $request = $this->getRequest();
 
             if ('POST' === $request->getMethod()) 

@@ -35,5 +35,6 @@
         Login
     </button>
     
-    <a href="{{ path('twitter_login') }}">Login with Twitter</a>
+    {% set param = redirect is defined and redirect ? {_target_path: redirect} : {} %}
+    <a href="{{ path('twitter_login', param) }}">Login with Twitter</a>
 </form>
