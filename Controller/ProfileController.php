@@ -134,7 +134,7 @@ class ProfileController extends Controller
 
                 if (!$user) 
                 {
-                    $form->get('email')->addError(new FormError("Sorry, we don't know the email address."));
+                    $form->get('email')->addError(new FormError("Sorry, we don't know this email address."));
                 }
                 else
                 {

@@ -26,6 +26,7 @@ class PasswordResetType extends AbstractType
          'type' => 'password',
          'first_options' => array('label' => "Password"),
          'second_options' => array('label' => "Verification"),
+         'label' => "Choose a new password",
         ));
     }
 
