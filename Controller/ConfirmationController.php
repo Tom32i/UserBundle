@@ -24,28 +24,15 @@ class ConfirmationController extends Controller
 
         $user = $em->getRepository($this->container->getParameter('tom32i_user.user_class'))->findOneBy(array('confirmationToken' => $token));
 
-        if ($user) 
+        if($user && $user->isConfirmationEmailValid()) 
         {
-            $current_user = $this->getUser();
+    		$user->setEmailValid(true);
+    		$em->persist($user);
+            $em->flush();
 
-            if(	$current_user 
-                && is_a($current_user, $this->container->getParameter('tom32i_user.user_class')) 
-            	&& $current_user->isValid() 
-            	&& $current_user->isEqualTo($user)
-                && $user->isConfirmationEmailValid()
-            ) 
-            {
-        		$user->setEmailValid(true);
-        		$em->persist($user);
-                $em->flush();
+            $this->authenticateUser($user);
 
-                $this->get('session')->getFlashBag()->add('success', "Congratulations! Your email address has been validated.");
-            }
-            else
-            {
-                $this->get('session')->getFlashBag()->add('error', "We couldn't confirm your email address, the link you used is expired. Please try again.");
-                $em->flush();
-            }
+            $this->get('session')->getFlashBag()->add('success', "Congratulations! Your email address has been validated.");
         }
         else
         {
