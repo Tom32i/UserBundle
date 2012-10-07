@@ -70,7 +70,7 @@ class ProfileController extends Controller
     public function deleteAction()
     {
         $user = $this->getUser();
-        $form = $this->createForm($this->container->get('tom32i_user.delete.form'), $user);
+        $form = $this->createForm($this->container->get('tom32i_user.delete.form.type'), $user);
         $request = $this->getRequest();
 
         if ('POST' === $request->getMethod()) 
