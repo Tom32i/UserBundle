@@ -88,14 +88,6 @@ class ProfileController extends Controller
                 {
                     $em = $this->getDoctrine()->getEntityManager();
 
-                    $boards = $user->getBoards()->toArray();
-                    $boards[] = $user->getFavBoard();
-
-                    foreach($boards as $board)
-                    {
-                        $em->remove($board);
-                    }
-
                     $em->remove($user);
                     $em->flush();
 
