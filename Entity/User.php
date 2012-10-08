@@ -153,8 +153,8 @@ abstract class User implements AdvancedUserInterface, EquatableInterface, \Seria
      */
     protected $emailRequestedAt;
 
-    public $currentPassword;
-    public $plainPassword;
+    private $currentPassword;
+    private $plainPassword;
 
     /* META */
 
@@ -873,6 +873,52 @@ abstract class User implements AdvancedUserInterface, EquatableInterface, \Seria
         $this->resetConfirmationToken();
         $this->emailRequestedAt = new \DateTime();
         $this->emailValid = false;
+    }
+
+    /**
+     * Set current password
+     *
+     * @param string $currentPassword
+     * @return User
+     */
+    public function setCurrentPassword($currentPassword)
+    {
+        $this->currentPassword = $currentPassword;
+    
+        return $this;
+    }
+
+    /**
+     * Get current password
+     *
+     * @return string 
+     */
+    public function getCurrentpassword()
+    {
+        return $this->currentpassword;
+    }
+
+    /**
+     * Set plain password
+     *
+     * @param string $plainPassword
+     * @return User
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+    
+        return $this;
+    }
+
+    /**
+     * Get plain password
+     *
+     * @return string 
+     */
+    public function getPlainpassword()
+    {
+        return $this->plainpassword;
     }
 
     public function onProfileEdit()
