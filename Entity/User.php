@@ -774,20 +774,6 @@ abstract class User implements AdvancedUserInterface, EquatableInterface, \Seria
     }
 
     /**
-     * Sets the plain password.
-     *
-     * @param string $password
-     *
-     * @return User
-     */
-    public function setPlainPassword($password)
-    {
-        $this->plainPassword = $password;
-
-        return $this;
-    }
-
-    /**
      * Set emailValid
      *
      * @param boolean $emailValid
@@ -899,15 +885,16 @@ abstract class User implements AdvancedUserInterface, EquatableInterface, \Seria
     }
 
     /**
-     * Set plain password
+     * Sets the plain password.
      *
-     * @param string $plainPassword
+     * @param string $password
+     *
      * @return User
      */
-    public function setPlainPassword($plainPassword)
+    public function setPlainPassword($password)
     {
-        $this->plainPassword = $plainPassword;
-    
+        $this->plainPassword = $password;
+
         return $this;
     }
 
