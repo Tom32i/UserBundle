@@ -881,7 +881,7 @@ abstract class User implements AdvancedUserInterface, EquatableInterface, \Seria
      */
     public function getCurrentpassword()
     {
-        return $this->currentpassword;
+        return $this->currentPassword;
     }
 
     /**
@@ -905,7 +905,7 @@ abstract class User implements AdvancedUserInterface, EquatableInterface, \Seria
      */
     public function getPlainpassword()
     {
-        return $this->plainpassword;
+        return $this->plainPassword;
     }
 
     public function onProfileEdit()
