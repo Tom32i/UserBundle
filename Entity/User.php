@@ -171,6 +171,11 @@ abstract class User implements AdvancedUserInterface, EquatableInterface, \Seria
         return (string) $this->getUsername();
     }
 
+    public function is(\Tom32i\UserBundle\Entity\User $user)
+    {
+        return $this->id === $user->getId();
+    }
+
     /* UTILS */
 
     public function updateCanonicalFields()
